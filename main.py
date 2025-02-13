@@ -33,7 +33,6 @@ intents.members = True
 intents.message_content = True  # Lire les messages et réactions
 
 bot = commands.Bot(command_prefix="!!", intents=intents)
-
 # Fonction pour envoyer un message via le webhook
 def send_webhook_message():
     data = {
@@ -74,20 +73,8 @@ async def on_reaction_add(reaction, user):
     if reaction.message.author == bot.user and str(reaction.emoji) == EMOJI:
         role = discord.utils.get(user.guild.roles, id=ROLE_ID)
         if role:
-            try:
-                # Vérifier si le bot a les bonnes permissions
-                if role in user.guild.me.roles:
-                    await user.add_roles(role)
-                    print(f"{user.name} a reçu le rôle {role.name} !")
-                else:
-                    print("Le bot n'a pas la permission d'attribuer ce rôle.")
-            except discord.DiscordException as e:
-                print(f"Erreur lors de l'attribution du rôle: {e}")
-        else:
-            print("Rôle non trouvé.")
-    else:
-        print(f"Réaction ignorée. Message: {reaction.message.id}, Emoji: {reaction.emoji}")
-
+            await user.add_roles(role)
+            print(f"{user.name} a reçu le rôle {role.name} !")
 # Lancer le bot
 bot.run(TOKEN)
 
