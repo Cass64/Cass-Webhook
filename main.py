@@ -30,6 +30,7 @@ CHANNEL_ID = int(CHANNEL_ID)  # Convertir l'ID du salon en entier
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True  # Lire les messages et réactions
+intents.reactions = True
 
 bot = commands.Bot(command_prefix="!!", intents=intents)
 
