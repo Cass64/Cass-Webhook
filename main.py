@@ -1,9 +1,22 @@
 import os  
 import discord
-from discord.ext import commands, tasks
+from discord.ext import commands
+from discord import app_commands
 from discord import Embed
+from flask import Flask
+import threading
 import requests
 
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run_web():
+    app.run(host="0.0.0.0", port=10000)
+
+threading.Thread(target=run_web, daemon=True).start()
 # Variables d'environnement
 TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = int(os.getenv("DISCORD_GUILD_ID"))
