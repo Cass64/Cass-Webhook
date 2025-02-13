@@ -42,7 +42,7 @@ def send_webhook_message():
             "title": "Joyeuse St-Valentin !",
             "description": "Voici votre petit badge exclusif ! 🎉",
             "color": 0x800080,  # Couleur violette
-            "image": {"url": ".png"}  # Remplace par l'URL de ton image
+            "image": {"url": "https://github.com/Cass64/Cass-Webhook/blob/main/images/auto_role.png?raw=true"}  # Remplace par l'URL de ton image
         }]
     }
     response = requests.post(WEBHOOK_URL, json=data)
