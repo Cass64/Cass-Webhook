@@ -19,18 +19,12 @@ def run_web():
 threading.Thread(target=run_web, daemon=True).start()
 # Variables d'environnement
 TOKEN = os.getenv("DISCORD_TOKEN")
+WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK")  # URL du webhook
 GUILD_ID = int(os.getenv("DISCORD_GUILD_ID"))
 CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))  # Salon où envoyer le message
 ROLE_ID = int(os.getenv("DISCORD_ROLE_ID"))  # Rôle à attribuer
 EMOJI = "❤️"  # Emoji à surveiller pour la réaction
 
-# Vérification que la variable WEBHOOK_URL existe
-if not WEBHOOK_URL:
-    raise ValueError("DISCORD_WEBHOOK is not set in the environment variables.")
-
-# Vérifier que la variable CHANNEL_ID n'est pas vide
-if CHANNEL_ID is None:
-    raise ValueError("DISCORD_CHANNEL_ID is not set in the environment variables.")
 
 CHANNEL_ID = int(CHANNEL_ID)  # Convertir l'ID du salon en entier
 
