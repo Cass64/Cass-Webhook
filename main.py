@@ -54,8 +54,18 @@ def send_webhook_message():
 # Fonction pour envoyer le message via le webhook dans le salon
 @bot.event
 async def on_ready():
-    # Envoyer le message via le webhook
+    # Envoyer le message via le webhook une seule fois
     send_webhook_message()
+
+    # Récupérer le salon où envoyer le message
+    channel = bot.get_channel(CHANNEL_ID)
+    if channel:
+        # Récupérer le dernier message envoyé dans le salon (le message envoyé via le webhook)
+        async for message in channel.history(limit=1):
+            if message.author.bot:
+                # Ajouter une réaction à ce message spécifique
+                await message.add_reaction(EMOJI)
+                break
 
 # Fonction pour attribuer un rôle lorsque l'emoji est réagi
 @bot.event
