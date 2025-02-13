@@ -48,4 +48,5 @@ async def on_reaction_add(reaction, user):
 # Lancer le bot
 bot.run(TOKEN)
 
-os.system("sleep infinity")
+if __name__ == "__main__":
+    os.system("sleep infinity")
