@@ -42,7 +42,7 @@ def send_webhook_message():
             "title": "Joyeuse St-Valentin !",
             "description": "Voici votre petit badge exclusif ! 🎉",
             "color": 0x800080,  # Couleur violette
-            "image": {"url": "https://example.com/image.png"}  # Remplace par l'URL de ton image
+            "image": {"url": ".png"}  # Remplace par l'URL de ton image
         }]
     }
     response = requests.post(WEBHOOK_URL, json=data)
@@ -74,8 +74,20 @@ async def on_reaction_add(reaction, user):
     if reaction.message.author == bot.user and str(reaction.emoji) == EMOJI:
         role = discord.utils.get(user.guild.roles, id=ROLE_ID)
         if role:
-            await user.add_roles(role)
-            print(f"{user.name} a reçu le rôle {role.name} !")
+            try:
+                # Vérifier si le bot a les bonnes permissions
+                if role in user.guild.me.roles:
+                    await user.add_roles(role)
+                    print(f"{user.name} a reçu le rôle {role.name} !")
+                else:
+                    print("Le bot n'a pas la permission d'attribuer ce rôle.")
+            except discord.DiscordException as e:
+                print(f"Erreur lors de l'attribution du rôle: {e}")
+        else:
+            print("Rôle non trouvé.")
+    else:
+        print(f"Réaction ignorée. Message: {reaction.message.id}, Emoji: {reaction.emoji}")
+
 # Lancer le bot
 bot.run(TOKEN)
 
