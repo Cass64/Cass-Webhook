@@ -1,7 +1,6 @@
 import os  
 import discord
 from discord.ext import commands
-from discord import app_commands
 from discord import Embed
 from flask import Flask
 import threading
@@ -17,6 +16,7 @@ def run_web():
     app.run(host="0.0.0.0", port=10000)
 
 threading.Thread(target=run_web, daemon=True).start()
+
 # Variables d'environnement
 TOKEN = os.getenv("DISCORD_TOKEN")
 WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK")  # URL du webhook
@@ -25,7 +25,6 @@ CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))  # Salon où envoyer le messag
 ROLE_ID = int(os.getenv("DISCORD_ROLE_ID"))  # Rôle à attribuer
 EMOJI = "❤️"  # Emoji à surveiller pour la réaction
 
-
 CHANNEL_ID = int(CHANNEL_ID)  # Convertir l'ID du salon en entier
 
 intents = discord.Intents.default()
@@ -33,7 +32,7 @@ intents.members = True
 intents.message_content = True  # Lire les messages et réactions
 
 bot = commands.Bot(command_prefix="!!", intents=intents)
-# Fonction pour envoyer un message via le webhook
+
 # Fonction pour envoyer un message via le webhook
 def send_webhook_message():
     data = {
@@ -67,9 +66,20 @@ async def on_ready():
             channel = bot.get_channel(CHANNEL_ID)
             if channel:
                 # Ajouter une réaction au message du webhook
-                message = await channel.fetch_message(message_id)
-                await message.add_reaction(EMOJI)
-                print(f"Réaction ajoutée au message du webhook avec l'ID {message_id}.")
+                try:
+                    message = await channel.fetch_message(message_id)
+                    await message.add_reaction(EMOJI)
+                    print(f"Réaction ajoutée au message du webhook avec l'ID {message_id}.")
+                except discord.errors.NotFound:
+                    print(f"Message avec l'ID {message_id} introuvable.")
+                except Exception as e:
+                    print(f"Erreur lors de l'ajout de la réaction: {e}")
+            else:
+                print(f"Le salon avec l'ID {CHANNEL_ID} n'a pas été trouvé.")
+        else:
+            print("L'ID du message du webhook est introuvable.")
+    else:
+        print("Échec de l'envoi du message via le webhook.")
 
 # Fonction pour attribuer un rôle lorsque l'emoji est réagi
 @bot.event
