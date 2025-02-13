@@ -27,7 +27,7 @@ async def on_ready():
             description="Voici votre petit badge exclusif ! 🎉",
             color=discord.Color.purple()
         )
-        embed.set_image(url="https://example.com/image.png")  # Remplace par l'URL de ton image
+        embed.set_image(url="https://pm1.aminoapps.com/6723/7ad535aca04c38612da7c8ae785144701a3a2a79v2_hq.jpg")  # Remplace par l'URL de ton image
 
         # Envoi du message avec l'embed
         message = await channel.send(embed=embed)
