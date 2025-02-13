@@ -24,29 +24,36 @@ CHANNEL_ID = int(os.getenv("DISCORD_CHANNEL_ID"))  # Salon où envoyer le messag
 ROLE_ID = int(os.getenv("DISCORD_ROLE_ID"))  # Rôle à attribuer
 EMOJI = "❤️"  # Emoji à surveiller pour la réaction
 
+CHANNEL_ID = int(CHANNEL_ID)  # Convertir l'ID du salon en entier
+
 intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True  # Lire les messages et réactions
 
 bot = commands.Bot(command_prefix="!!", intents=intents)
 
-# Fonction pour envoyer le message
+# Fonction pour envoyer un message via le webhook
+def send_webhook_message():
+    data = {
+        "content": "Joyeuse St-Valentin, voici votre petit badge exclusif ! 🎉",
+        "embeds": [{
+            "title": "Joyeuse St-Valentin !",
+            "description": "Voici votre petit badge exclusif ! 🎉",
+            "color": 0x800080,  # Couleur violette
+            "image": {"url": "https://example.com/image.png"}  # Remplace par l'URL de ton image
+        }]
+    }
+    response = requests.post(WEBHOOK_URL, json=data)
+    if response.status_code == 200:
+        print("Message envoyé via le webhook.")
+    else:
+        print(f"Erreur lors de l'envoi du message: {response.status_code}")
+
+# Fonction pour envoyer le message via le webhook dans le salon
 @bot.event
 async def on_ready():
-    channel = bot.get_channel(CHANNEL_ID)
-    if channel:
-        embed = Embed(
-            title="Joyeuse St-Valentin !",
-            description="Voici votre petit badge exclusif ! 🎉",
-            color=discord.Color.purple()
-        )
-        embed.set_image(url="https://pm1.aminoapps.com/6723/7ad535aca04c38612da7c8ae785144701a3a2a79v2_hq.jpg")  # Remplace par l'URL de ton image
-
-        # Envoi du message avec l'embed
-        message = await channel.send(embed=embed)
-
-        # Ajouter une réaction prédéfinie à ce message
-        await message.add_reaction(EMOJI)
+    # Envoyer le message via le webhook
+    send_webhook_message()
 
 # Fonction pour attribuer un rôle lorsque l'emoji est réagi
 @bot.event
@@ -57,7 +64,6 @@ async def on_reaction_add(reaction, user):
         if role:
             await user.add_roles(role)
             print(f"{user.name} a reçu le rôle {role.name} !")
-
 # Lancer le bot
 bot.run(TOKEN)
 
