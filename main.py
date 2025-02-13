@@ -33,3 +33,6 @@ async def on_member_join(member):
 
 # Lancer le bot
 bot.run(TOKEN)
+
+if __name__ == "__main__":
+    os.system("sleep infinity")
