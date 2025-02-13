@@ -13,7 +13,7 @@ ROLE_ID = int(os.getenv("DISCORD_ROLE_ID"))
 
 # Intents et configuration du bot
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix="!!",
+bot = commands.Bot(command_prefix="!!")
 
 # Envoi d'un message via le webhook
 def send_webhook_message(user):
