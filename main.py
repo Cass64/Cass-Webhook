@@ -70,7 +70,7 @@ async def on_ready():
 @bot.event
 async def on_reaction_add(reaction, user):
     # Vérifier si la réaction est sur le bon message et avec le bon emoji
-    if reaction.message.author == bot.user and str(reaction.emoji) == EMOJI:
+    if reaction.message.author == bot.user and str(reaction.emoji) == "❤️" :
         role = discord.utils.get(user.guild.roles, id=ROLE_ID)
         if role:
             await user.add_roles(role)
