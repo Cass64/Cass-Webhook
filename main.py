@@ -10,10 +10,9 @@ WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK")
 GUILD_ID = int(os.getenv("DISCORD_GUILD_ID"))
 ROLE_ID = int(os.getenv("DISCORD_ROLE_ID"))
 
-# Initialisation du bot
-intents = discord.Intents.default()
-intents.members = True
-bot = commands.Bot(command_prefix="!", intents=intents)
+# Intents et configuration du bot
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix="!!",
 
 # Envoi d'un message via le webhook
 def send_webhook_message(user):
